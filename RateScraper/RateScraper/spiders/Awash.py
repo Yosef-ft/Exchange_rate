@@ -13,6 +13,7 @@ class AwashSpider(scrapy.Spider):
 
         for rate in Ind_Rates:
             yield{
+                'Data' : response.css('div.exchange-rates-header span::text').get(),
                 'CurrencyCode' : rate[0],
                 'CashBuying': rate[1],
                 'CashSelling' : rate[2],

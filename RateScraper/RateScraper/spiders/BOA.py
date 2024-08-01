@@ -40,6 +40,7 @@ class BoaSpider(scrapy.Spider):
 
         for i in range(len(cash_common)):
             yield{
+                'Date' : response.css('table tr th.column-1::text').get(),
                 'CurrencyCode' : cash_common[i][0],
                 'CashBuying' : cash_common[i][1],
                 'CashSelling' : cash_common[i][2],
