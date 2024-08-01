@@ -4,7 +4,7 @@ import scrapy
 class AbaySpider(scrapy.Spider):
     name = "Abay"
     allowed_domains = ["abaybank.com.et"]
-    start_urls = ["https://abaybank.com.et"]
+    start_urls = ["https://abaybank.com.et/exchange-rates/"]
 
     def parse(self, response):        
 
