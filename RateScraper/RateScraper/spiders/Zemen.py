@@ -24,7 +24,7 @@ class ZemenSpider(scrapy.Spider):
 
         for rate in Rates:
             yield{
-                "Data" : response.css('table thead tr th span.text-uppercase::text').get(),
+                "Date" : response.css('table thead tr th span.text-uppercase::text').get(),
                 "CurrencyCode" : rate[0],
                 "Buying" : rate[1],
                 "Selling" : rate[2],
