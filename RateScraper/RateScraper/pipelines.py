@@ -30,7 +30,10 @@ class RatescraperPipeline:
         try:
             adapter['Date'] = datetime.datetime.strptime(Date_string, '%B %d, %Y')
         except:
-            adapter['Date'] = datetime.datetime.strptime(Date_string, '%b %d, %Y')
+            try:
+                adapter['Date'] = datetime.datetime.strptime(Date_string, '%b %d, %Y')
+            except:
+                adapter['Date'] = datetime.datetime.strptime(Date_string, '%Y-%m-%d')
         
 
         ## Code --> remove \xa0 from currency code, display only currency code

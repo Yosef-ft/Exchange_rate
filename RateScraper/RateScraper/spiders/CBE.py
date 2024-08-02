@@ -1,5 +1,6 @@
 import scrapy
 import json
+from RateScraper.items import FullExchangeItems
 
 class CbeSpider(scrapy.Spider):
     name = "CBE"
@@ -32,15 +33,16 @@ class CbeSpider(scrapy.Spider):
         data = json.loads(raw_data)[0]
 
         for rate in data['ExchangeRate']:
-            yield {
-                'Date' : data['Date'],
-                'CashBuying': rate['cashBuying'],
-                'CashSelling' : rate['cashSelling'],
-                'TransactionalBuying' : rate['transactionalBuying'],
-                'transactionalSelling' : rate['transactionalSelling'],
-                'CurrencyCode' : rate['currency']['CurrencyCode'],
-                'CurrencyName' : rate['currency']['CurrencyName']
-            }
+            exchange_rate = FullExchangeItems()
+            exchange_rate['bank'] = 'CBE'
+            exchange_rate['Date'] = data['Date']
+            exchange_rate['CashBuying'] = rate['cashBuying']
+            exchange_rate['CashSelling'] = rate['cashSelling']
+            exchange_rate['TransactionalBuying'] = rate['transactionalBuying']
+            exchange_rate['TransactionalSelling'] = rate['transactionalSelling']
+            exchange_rate['CurrencyCode'] = rate['currency']['CurrencyCode']
+            
+            yield exchange_rate
 
 
 
