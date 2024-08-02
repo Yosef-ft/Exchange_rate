@@ -31,6 +31,7 @@ class RatescraperPipeline:
             '%B %d, %Y',
             '%d %B, %Y',
             '%b %d, %Y',
+            '%b %d,%Y',
             '%Y-%m-%d',
             '%B %d %Y'
         ]        
