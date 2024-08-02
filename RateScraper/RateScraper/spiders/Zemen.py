@@ -1,4 +1,5 @@
 import scrapy
+from RateScraper.items import ExchangeItem
 
 
 class ZemenSpider(scrapy.Spider):
@@ -23,9 +24,12 @@ class ZemenSpider(scrapy.Spider):
             Rates.append(temp)
 
         for rate in Rates:
-            yield{
-                "Date" : response.css('table thead tr th span.text-uppercase::text').get(),
-                "CurrencyCode" : rate[0],
-                "Buying" : rate[1],
-                "Selling" : rate[2],
-            }
+            exchange_rate = ExchangeItem()
+            exchange_rate['bank'] = 'Zemen'
+            exchange_rate["Date"] = response.css('table thead tr th span.text-uppercase::text').get()
+            exchange_rate["CurrencyCode"] = rate[0]
+            exchange_rate["Buying"] = rate[1]
+            exchange_rate["Selling"] = rate[2]
+
+            yield exchange_rate
+            

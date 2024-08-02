@@ -6,7 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-
+from RateScraper.items import FullExchangeItems, ExchangeItem
 
 import datetime
 from decimal import Decimal
@@ -28,7 +28,10 @@ class RatescraperPipeline:
         ## Date  --> convert to datetime
         Date_string = adapter.get('Date')
         try:
-            adapter['Date'] = datetime.datetime.strptime(Date_string, '%B %d, %Y')
+            try:
+                adapter['Date'] = datetime.datetime.strptime(Date_string, '%B %d, %Y')
+            except:
+                adapter['Date'] = datetime.datetime.strptime(Date_string, '%d %B, %Y')
         except:
             try:
                 adapter['Date'] = datetime.datetime.strptime(Date_string, '%b %d, %Y')
@@ -51,6 +54,7 @@ import mysql.connector
 class SaveToMySQLPipeline:
 
     def __init__(self):
+        # For transactions and cash rate
         self.conn = mysql.connector.connect(
             host = 'localhost',
             user = 'root',
@@ -72,7 +76,36 @@ class SaveToMySQLPipeline:
         )
         """)
 
+
+        # For cash rate only
+        self.conn2 = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = 'root',
+            database = 'Rates'
+        )
+
+        self.cur2 = self.conn2.cursor()
+
+        self.cur2.execute("""
+        CREATE TABLE IF NOT EXISTS rates(
+            bank VARCHAR(255),
+            Date DATETIME,
+            CurrencyCode VARCHAR(255),
+            Buying DECIMAL(10,4),
+            Selling DECIMAL(10,4)
+        )
+        """)
+        
+
     def process_item(self, item, spider):
+        if isinstance(item, FullExchangeItems):
+            self.process_full_exchange_item(item, spider)
+        elif isinstance(item, ExchangeItem):
+            self.process_exchange_item(item, spider)
+
+
+    def process_full_exchange_item(self, item, spider):
         self.cur.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
         count = self.cur.fetchone()[0]
 
@@ -97,8 +130,8 @@ class SaveToMySQLPipeline:
                 item["bank"],
                 item["Date"],
                 item["CurrencyCode"],
-                float(item["CashBuying"]),
-                float(item["CashSelling"]),
+                item["CashBuying"],
+                item["CashSelling"],
                 item["TransactionalBuying"],
                 item["TransactionalSelling"]
             ))
@@ -108,9 +141,55 @@ class SaveToMySQLPipeline:
         else:
             print(">>>>>>>>>>_____________________<<<<<<<<<<<<")
             print(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")
+   
+
+
+
+
+    def process_exchange_item(self, item, spider):
+        self.cur2.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
+        count = self.cur2.fetchone()[0]
+
+        if count == 0:
+            self.cur2.execute(""" insert into rates (
+                bank, 
+                Date, 
+                CurrencyCode, 
+                Buying, 
+                Selling
+                ) values (
+                    %s,
+                    %s,
+                    %s,
+                    %s,
+                    %s
+                    )""", (
+                item["bank"],
+                item["Date"],
+                item["CurrencyCode"],
+                item["Buying"],
+                item["Selling"]
+            ))
+
+            ## Execute insert of data into database
+            self.conn2.commit()
+        else:
+            print(">>>>>>>>>>_____________________<<<<<<<<<<<<")
+            print(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")            
     
+
+
+
+
     def close_spider(self, spider):
 
         ## Close cursor & connection to database 
         self.cur.close()
-        self.conn.close()          
+        self.conn.close()   
+
+        self.cur2.close()
+        self.conn2.close()   
+
+               
+
+

@@ -14,6 +14,7 @@ class RatescraperItem(scrapy.Item):
 
 # This only includes cash rates
 class ExchangeItem(scrapy.Item):
+    bank = scrapy.Field()
     Date = scrapy.Field()
     CurrencyCode = scrapy.Field()
     Buying = scrapy.Field()
