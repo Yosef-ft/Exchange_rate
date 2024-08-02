@@ -30,9 +30,10 @@ class RatescraperPipeline:
         adapter['Date'] = datetime.datetime.strptime(Date_string, '%B %d, %Y')
         
 
-        ## Code --> remove \xa0 from currency code
+        ## Code --> remove \xa0 from currency code, display only currency code
         curr_code = adapter.get('CurrencyCode')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\xa0', '')
+        adapter['CurrencyCode'] = adapter['CurrencyCode'].strip().split()[0]
 
 
         return item
@@ -66,7 +67,7 @@ class SaveToMySQLPipeline:
         """)
 
     def process_item(self, item, spider):
-        self.cur.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s", (item["Date"], item["bank"]))
+        self.cur.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
         count = self.cur.fetchone()[0]
 
         if count == 0:

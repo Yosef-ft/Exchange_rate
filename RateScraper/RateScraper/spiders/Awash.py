@@ -1,4 +1,5 @@
 import scrapy
+from RateScraper.items import FullExchangeItems
 
 
 class AwashSpider(scrapy.Spider):
@@ -12,13 +13,15 @@ class AwashSpider(scrapy.Spider):
         Ind_Rates = [rate.css('td::text').getall() for rate in Rates]
 
         for rate in Ind_Rates:
-            yield{
-                'Date' : response.css('div.exchange-rates-header span::text').get(),
-                'CurrencyCode' : rate[0],
-                'CashBuying': rate[1],
-                'CashSelling' : rate[2],
-                'TransactionalBuying' : rate[3],
-                'TransactionalSelling' : rate[4],                
-            }
+            exchange_rate = FullExchangeItems()
+            exchange_rate['bank'] = 'Awash'
+            exchange_rate['Date'] = response.css('div.exchange-rates-header span::text').get()
+            exchange_rate['CurrencyCode'] = rate[0]
+            exchange_rate['CashBuying']= rate[1]
+            exchange_rate['CashSelling'] = rate[2]
+            exchange_rate['TransactionalBuying'] = rate[3]
+            exchange_rate['TransactionalSelling'] = rate[4]               
+            
+            yield exchange_rate
 
 
