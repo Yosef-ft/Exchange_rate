@@ -27,21 +27,25 @@ class RatescraperPipeline:
 
         ## Date  --> convert to datetime
         Date_string = adapter.get('Date')
-        try:
-            try:
-                adapter['Date'] = datetime.datetime.strptime(Date_string, '%B %d, %Y')
-            except:
-                adapter['Date'] = datetime.datetime.strptime(Date_string, '%d %B, %Y')
-        except:
-            try:
-                adapter['Date'] = datetime.datetime.strptime(Date_string, '%b %d, %Y')
-            except:
-                adapter['Date'] = datetime.datetime.strptime(Date_string, '%Y-%m-%d')
-        
+        date_formats = [
+            '%B %d, %Y',
+            '%d %B, %Y',
+            '%b %d, %Y',
+            '%Y-%m-%d',
+            '%B %d %Y'
+        ]        
 
-        ## Code --> remove \xa0 from currency code, display only currency code
+        for date_format in date_formats:
+            try:
+                adapter['Date'] = datetime.datetime.strptime(Date_string, date_format)
+            except:
+                pass
+
+
+        ## CurrencyCode --> Clean CurrencyCode 
         curr_code = adapter.get('CurrencyCode')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\xa0', '')
+        adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\n', '')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].strip().split()[0]
 
 

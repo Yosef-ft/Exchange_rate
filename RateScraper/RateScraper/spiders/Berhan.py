@@ -1,4 +1,5 @@
 import scrapy
+from RateScraper.items import ExchangeItem
 
 
 class BerhanSpider(scrapy.Spider):
@@ -27,9 +28,11 @@ class BerhanSpider(scrapy.Spider):
             Rates.append(temp)        
 
         for rate in Rates:
-            yield{
-                "Date" : response.css('div.innerContainer h3::text').get().strip(),
-                "CurrencyCode" : rate[0],
-                "Buying" : rate[1],
-                "Selling" : rate[2],
-            }
+            exchange_rate = ExchangeItem()
+            exchange_rate['bank'] = self.name
+            exchange_rate["Date"] = response.css('div.innerContainer h3::text').get().strip()
+            exchange_rate["CurrencyCode"] = rate[0]
+            exchange_rate["Buying"] = rate[1]
+            exchange_rate["Selling"] = rate[2]
+            
+            yield exchange_rate

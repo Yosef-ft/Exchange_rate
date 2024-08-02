@@ -25,7 +25,7 @@ class ZemenSpider(scrapy.Spider):
 
         for rate in Rates:
             exchange_rate = ExchangeItem()
-            exchange_rate['bank'] = 'Zemen'
+            exchange_rate['bank'] = self.name
             exchange_rate["Date"] = response.css('table thead tr th span.text-uppercase::text').get()
             exchange_rate["CurrencyCode"] = rate[0]
             exchange_rate["Buying"] = rate[1]

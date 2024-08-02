@@ -1,5 +1,5 @@
 import scrapy
-
+from RateScraper.items import ExchangeItem
 
 class AbaySpider(scrapy.Spider):
     name = "Abay"
@@ -13,11 +13,13 @@ class AbaySpider(scrapy.Spider):
         # Currency code needs to be cleaned contains `\xa0`
 
         for rate in Rates:
-            yield{
-                'Date' : response.css('table tr th.column-1::text').get(),
-                'CurrencyCode' : rate.css('td.column-1::text').get() ,
-                'Buying' : rate.css('tr td.column-2::text').get() ,
-                'Selling' : rate.css('td.column-3::text').get() ,
-            }
+            exchange_rate = ExchangeItem()
+            exchange_rate['bank'] = self.name
+            exchange_rate['Date'] = response.css('table tr th.column-1::text').get()
+            exchange_rate['CurrencyCode'] = rate.css('td.column-1::text').get() 
+            exchange_rate['Buying'] = rate.css('tr td.column-2::text').get() 
+            exchange_rate['Selling'] = rate.css('td.column-3::text').get() 
+            
+            yield exchange_rate
 
 
