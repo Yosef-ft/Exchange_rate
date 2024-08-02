@@ -1,5 +1,5 @@
 import scrapy
-
+from RateScraper.items import FullExchangeItems
 
 class WegagenSpider(scrapy.Spider):
     name = "Wegagen"
@@ -21,11 +21,13 @@ class WegagenSpider(scrapy.Spider):
 
 
         for rate in Rates:
-            yield{
-                "Date" : response.css('table tbody tr td h6 strong::text').get(),
-                "CurrencyCode" : rate[0],
-                "CashBuying" : rate[2],
-                "CashSelling" : rate[3],
-                "TransactionalBuying" : rate[4],
-                "TransactionalSelling" : rate[5]
-            }
+            exchange_rate = FullExchangeItems()
+            exchange_rate['bank'] = 'Wegagen'
+            exchange_rate["Date"] = response.css('table tbody tr td h6 strong::text').get()
+            exchange_rate["CurrencyCode"] = rate[0]
+            exchange_rate["CashBuying"] = rate[2]
+            exchange_rate["CashSelling"] = rate[3]
+            exchange_rate["TransactionalBuying"] = rate[4]
+            exchange_rate["TransactionalSelling"] = rate[5]
+
+            yield exchange_rate
