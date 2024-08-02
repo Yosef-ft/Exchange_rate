@@ -1,5 +1,5 @@
 import scrapy
-
+from RateScraper.items import FullExchangeItems
 
 class BoaSpider(scrapy.Spider):
     name = "BOA"
@@ -39,12 +39,15 @@ class BoaSpider(scrapy.Spider):
 
 
         for i in range(len(cash_common)):
-            yield{
-                'Date' : response.css('table tr th.column-1::text').get(),
-                'CurrencyCode' : cash_common[i][0],
-                'CashBuying' : cash_common[i][1],
-                'CashSelling' : cash_common[i][2],
-                'TransactionalBuying' : trans_common[i][1],
-                'TransactionalSelling' : trans_common[i][2],
-            }
+            exchange_rate = FullExchangeItems()
+            exchange_rate['bank'] = "BOA"
+            exchange_rate['Date'] = response.css('table tr th.column-1::text').get()
+            exchange_rate['CurrencyCode'] = cash_common[i][0]
+            exchange_rate['CashBuying'] = cash_common[i][1]
+            exchange_rate['CashSelling'] = cash_common[i][2]
+            exchange_rate['TransactionalBuying'] = trans_common[i][1]
+            exchange_rate['TransactionalSelling'] = trans_common[i][2]
+
+            yield exchange_rate
+            
 
