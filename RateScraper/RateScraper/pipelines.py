@@ -22,6 +22,8 @@ class RatescraperPipeline:
             try:
                 value = adapter.get(price_key)
                 adapter[price_key] = value.replace('\xa0', '').strip()
+                adapter[price_key] = value.replace('\n', '').strip()
+                adapter[price_key] = value.replace('\t', '').strip()
             except:
                 pass
 
@@ -57,11 +59,20 @@ class RatescraperPipeline:
 
         ## CurrencyCode --> Clean CurrencyCode 
         curr_code = adapter.get('CurrencyCode')
+
+        adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\n', '').strip()
+        adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\t', '').strip()
+
         symbol_converter = {'US Dollar' : 'USD', 'Euro' : 'EUR', 'Pound Sterling' : 'GBP', 'Saudi Riyal' : 'SAR', 'UAE Dirham' : 'AED'}
-        adapter['CurrencyCode'] = symbol_converter[curr_code]
+        try:
+            adapter['CurrencyCode'] = symbol_converter[curr_code]
+        except:
+            pass
         
+        if '(' in curr_code:
+            adapter['CurrencyCode'] = adapter['CurrencyCode'][-4:-1]
+
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\xa0', '')
-        adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\n', '')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].strip().split()[0]
 
 

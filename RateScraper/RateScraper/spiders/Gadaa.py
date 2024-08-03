@@ -25,7 +25,7 @@ class GadaaSpider(scrapy.Spider):
         for rate in Rates:
             exchange_rate = ExchangeItem()
             exchange_rate['bank'] = self.name
-            exchange_rate['Date'] = response.css('div.elementor-shortcode p.wpdt-c::text').get()[:12]
+            exchange_rate['Date'] = response.css('div.elementor-shortcode p.wpdt-c::text').get()[:-14]
             exchange_rate['CurrencyCode'] = rate[0]
             exchange_rate['Buying'] = rate[1]
             exchange_rate['Selling'] = rate[2]
