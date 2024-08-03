@@ -38,6 +38,7 @@ class RatescraperPipeline:
         Date_string = adapter.get('Date')
         date_formats = [
             '%B %d, %Y',
+            '%B %d,%Y',
             '%d %B, %Y',
             '%b %d, %Y',
             '%b %d,%Y',
@@ -56,6 +57,9 @@ class RatescraperPipeline:
 
         ## CurrencyCode --> Clean CurrencyCode 
         curr_code = adapter.get('CurrencyCode')
+        symbol_converter = {'US Dollar' : 'USD', 'Euro' : 'EUR', 'Pound Sterling' : 'GBP', 'Saudi Riyal' : 'SAR', 'UAE Dirham' : 'AED'}
+        adapter['CurrencyCode'] = symbol_converter[curr_code]
+        
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\xa0', '')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\n', '')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].strip().split()[0]
