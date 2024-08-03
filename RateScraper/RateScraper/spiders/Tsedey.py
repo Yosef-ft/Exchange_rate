@@ -24,6 +24,7 @@ class TsedeySpider(scrapy.Spider):
                     break
             Rates.append(temp)          
 
+        ## The website doesn't provide when the data has been updated
         now = datetime.datetime.now()
         date_string = now.strftime('%B %d, %Y')
 

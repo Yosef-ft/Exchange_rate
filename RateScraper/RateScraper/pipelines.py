@@ -42,6 +42,7 @@ class RatescraperPipeline:
             '%B %d, %Y',
             '%B %d,%Y',
             '%d %B, %Y',
+            '%d %b, %Y',
             '%b %d, %Y',
             '%b %d,%Y',
             '%Y-%m-%d',
@@ -60,6 +61,7 @@ class RatescraperPipeline:
         ## CurrencyCode --> Clean CurrencyCode 
         curr_code = adapter.get('CurrencyCode')
 
+        adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('1', '').strip()
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\n', '').strip()
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\t', '').strip()
 
