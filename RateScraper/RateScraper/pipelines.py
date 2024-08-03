@@ -19,8 +19,11 @@ class RatescraperPipeline:
         ## Clean prices
         price_keys = ['Buying', 'Selling']
         for price_key in price_keys:
-            value = adapter.get(price_key)
-            adapter[price_key] = value.replace('\xa0', '').strip()
+            try:
+                value = adapter.get(price_key)
+                adapter[price_key] = value.replace('\xa0', '').strip()
+            except:
+                pass
 
         ## Price --> convert to float
         price_keys = ['CashBuying', 'CashSelling', 'TransactionalBuying', 'TransactionalSelling']
@@ -40,7 +43,8 @@ class RatescraperPipeline:
             '%b %d,%Y',
             '%Y-%m-%d',
             '%B %d %Y',
-            '%d/%m/%Y'
+            '%d/%m/%Y',
+            '%d %b  %Y'
         ]        
 
         for date_format in date_formats:
