@@ -65,7 +65,7 @@ class RatescraperPipeline:
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\n', '').strip()
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\t', '').strip()
 
-        symbol_converter = {'US Dollar' : 'USD', 'Euro' : 'EUR', 'Pound Sterling' : 'GBP', 'Saudi Riyal' : 'SAR', 'UAE Dirham' : 'AED'}
+        symbol_converter = {'US Dollar' : 'USD', 'Euro' : 'EUR', 'Pound Sterling' : 'GBP', 'Saudi Riyal' : 'SAR', 'UAE Dirham' : 'AED', 'Japanese Yen' : 'JPY', 'Kuwait Dinar' : 'KWD'}
         try:
             adapter['CurrencyCode'] = symbol_converter[curr_code]
         except:
