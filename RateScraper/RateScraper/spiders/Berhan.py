@@ -20,7 +20,7 @@ class BerhanSpider(scrapy.Spider):
         for sym in symbols:
             temp = [sym]
             counter = 0
-            for price in prices:
+            for price in prices[len(Rates) * 2:]:
                 temp.append(price)
                 counter += 1
                 if counter == 2:

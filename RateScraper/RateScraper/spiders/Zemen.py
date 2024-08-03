@@ -16,7 +16,7 @@ class ZemenSpider(scrapy.Spider):
         for sym in symbol:
             temp = [sym]
             counter = 0
-            for price in prices:
+            for price in prices[len(Rates) * 2:]:
                 temp.append(price)
                 counter += 1
                 if counter == 2:

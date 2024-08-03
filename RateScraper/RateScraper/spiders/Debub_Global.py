@@ -17,7 +17,7 @@ class DebubGlobalSpider(scrapy.Spider):
         for sym in symbol:
             temp = [sym]
             counter = 0
-            for price in data:
+            for price in data[len(Rates) * 2:]:
                 temp.append(price)
                 counter += 1
                 if counter == 2:
