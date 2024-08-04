@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 from RateScraper.items import FullExchangeItems, ExchangeItem
 
 import datetime
+import logging
 from decimal import Decimal
 
 class RatescraperPipeline:
@@ -172,8 +173,8 @@ class SaveToMySQLPipeline:
             ## Execute insert of data into database
             self.conn.commit()
         else:
-            print(">>>>>>>>>>_____________________<<<<<<<<<<<<")
-            print(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")
+            logging.debug(">>>>>>>>>>>>>>>>>>>>_____________________<<<<<<<<<<<<<<<<<<<<<<<<")
+            logging.debug(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")
    
 
 
@@ -207,8 +208,8 @@ class SaveToMySQLPipeline:
             ## Execute insert of data into database
             self.conn2.commit()
         else:
-            print(">>>>>>>>>>_____________________<<<<<<<<<<<<")
-            print(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")            
+            logging.debug(">>>>>>>>>>_____________________<<<<<<<<<<<<")
+            logging.debug(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")            
     
 
 
