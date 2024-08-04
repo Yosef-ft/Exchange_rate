@@ -105,12 +105,24 @@ def main():
     table_content = ' '.join(Bank_DB.TranCash_banks_table()) + ' '.join(Bank_DB.cash_banks_table())
 
     time_now = datetime.datetime.now().date().strftime('%Y-%m-%d')
+    post_title = 'Exchange rates'
     post = {
         'date' : time_now + 'T00:00:00',
-        'title' : 'Exchange rates',
+        'title' : post_title,
         'content' : table_content,
         'status' : 'publish'
     }
+
+    existing_posts = requests.get(url + '/posts', headers=header, params={'search': post_title}).json()
+    if existing_posts:
+        # Delete the existing post
+        for existing_post in existing_posts:
+            post_id = existing_post['id']
+            delete_response = requests.delete(url + f'/posts/{post_id}', headers=header)
+            if delete_response.status_code == 200:
+                print(f"Deleted post with ID {post_id}")
+            else:
+                print(f"Failed to delete post with ID {post_id}")
 
     r = requests.post(url + '/posts' , headers=header, json=post)
     print(r.json())
