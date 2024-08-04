@@ -45,15 +45,16 @@ self.conn2 = mysql.connector.connect(
 def main():
     url = 'http://exchange-rates.local/wp-json/wp/v2'
     user = 'your_wordpress_username'
-    password = 'your_wordpress_password'
+    password = 'your_wordpress_password' # Generated from Application Passwords plugin
     creds = user + ":" + password
     token = base64.b64encode(creds.encode())
     header = {'Authorization': 'Basic ' + token.decode('utf-8')}
 ```
 
-Make sure to replace 'your_wordpress_username' and 'your_wordpress_password' with your actual WordPress credentials.
+- Make sure to replace 'your_wordpress_username' and 'your_wordpress_password' with your actual WordPress credentials. 
+- Generating password refer `https://robingeuens.com/blog/python-wordpress-api/`
 
 ## Running the Project
-After completing the setup, you can start the project by running the spiders. The exchange rates will be saved to the MySQL database, and the results will be sent to the configured WordPress site.
+After completing the setup, you can start the project by running the spiders from the command line or run the python file RateScraper/RateScraper/spiders/__init__.py . The exchange rates will be saved to the local MySQL database, and by running the WP_api.py file; results will be sent to the configured WordPress site.
 
 Enjoy!
