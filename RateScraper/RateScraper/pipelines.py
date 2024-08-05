@@ -77,6 +77,7 @@ class RatescraperPipeline:
 
         adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('\xa0', '')
         adapter['CurrencyCode'] = adapter['CurrencyCode'].strip().split()[0]
+        adapter['CurrencyCode'] = adapter['CurrencyCode'].replace('.', '')
 
 
         return item
