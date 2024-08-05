@@ -38,10 +38,11 @@ class RatescraperPipeline:
                 pass
 
         ## Date  --> convert to datetime
-        Date_string = adapter.get('Date')
+        Date_string = adapter.get('Date').strip()
         date_formats = [
             '%B %d, %Y',
             '%B %d,%Y',
+            '%B  %d %Y',
             '%d %B, %Y',
             '%d %b, %Y',
             '%b %d, %Y',
@@ -50,7 +51,7 @@ class RatescraperPipeline:
             '%B %d %Y',
             '%d/%m/%Y',
             '%d %b  %Y'
-        ]        
+        ]     
 
         for date_format in date_formats:
             try:
