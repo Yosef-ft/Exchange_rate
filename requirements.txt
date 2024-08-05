@@ -78,7 +78,7 @@ toolz
 tornado
 traitlets
 Twisted
-twisted-iocpsupport
+# twisted-iocpsupport
 typing_extensions
 tzdata
 urllib3
