@@ -1,6 +1,6 @@
 # Scraper for Ethiopian Bank Exchange Rates and WordPress Site Integration
 ### Overview
-This project scrapes the exchange rates from all Ethiopian banks and saves the data to a MySQL database. The program then sends the results to a WordPress website.
+This project scrapes the exchange rates from all Ethiopian banks and saves the data to a MySQL database. The program then sends the results to a `WordPress` website or `Streamlit` site.
 
 ### Prerequisites
 * MySQL server (version 8.0 or later)
@@ -18,9 +18,9 @@ cd Exchange_rate
 pip install -r requirements.txt
 ```
 3. Download and install the latest MySQL server from the official website: MySQL Downloads <https://dev.mysql.com/downloads/mysql/>
-4. Create two tables in your MySQL database:
-    - FullRates
-    - Rates
+4. Create two databases in MySQL:
+    - FullRates  # This table will save the bank rates that show both transactional/cash buying and selling rates
+    - Rates  # This will save the the bank rates that only show buying/selling rates
 5. In the pipeline.py file, configure your database connection details:
 ```
 self.conn = mysql.connector.connect(
@@ -53,6 +53,9 @@ def main():
 
 - Make sure to replace 'your_wordpress_username' and 'your_wordpress_password' with your actual WordPress credentials. 
 - Generating password refer `https://robingeuens.com/blog/python-wordpress-api/`
+
+## Configuring Streamlit site
+1. To run `streamlit.py` configure the database connection like the steps shown above.
 
 ## Running the Project
 After completing the setup, you can start the project by running the spiders from the command line or run the python file RateScraper/RateScraper/spiders/__init__.py . The exchange rates will be saved to the local MySQL database, and by running the WP_api.py file; results will be sent to the configured WordPress site.
