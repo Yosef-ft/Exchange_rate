@@ -65,7 +65,7 @@ requests-file
 rich
 rpds-py
 Scrapy
-service-identit
+service-identity
 setuptools
 six
 smmap
