@@ -17,7 +17,8 @@ import json
 
 def reboot_app():
     """Restarts the current Streamlit app"""
-    os.execl(sys.executable, sys.executable, *sys.argv)
+    os.execl(sys.executable, sys.executable, *["st_live_scraper.py"] + sys.argv[1:])
+    # os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 st.set_page_config(layout="wide")
