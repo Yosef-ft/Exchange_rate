@@ -18,24 +18,17 @@ cd Exchange_rate
 pip install -r requirements.txt
 ```
 3. Download and install the latest MySQL server from the official website: MySQL Downloads <https://dev.mysql.com/downloads/mysql/>
-4. Create two databases in MySQL:
-    - FullRates  # This table will save the bank rates that show both transactional/cash buying and selling rates
-    - Rates  # This will save the the bank rates that only show buying/selling rates
+4. Create a databases in MySQL:
+    - Call your database 'Exchange_Rates' 
 5. In the pipeline.py file, configure your database connection details:
 ```
 self.conn = mysql.connector.connect(
     host='localhost',
-    user='root',
+    user='your_username',
     password='your_password',
-    database='FullRates'
+    database='Exchange_Rates'
 )
 
-self.conn2 = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='your_password',
-    database='Rates'
-)
 ```
 
 ## Configuring WordPress Integration
@@ -55,7 +48,16 @@ def main():
 - Generating password refer `https://robingeuens.com/blog/python-wordpress-api/`
 
 ## Configuring Streamlit site
-1. To run `streamlit.py` configure the database connection like the steps shown above.
+1. To run `streamlit.py` configure the database connection go to `streamlit.py`:
+```
+        self.conn = mysql.connector.connect(
+            host = 'localhost',
+            user = 'your_username',
+            password = 'your_password',
+            database = 'Exchange_Rates'
+        )
+ 
+```
 
 ## Running the Project
 After completing the setup, you can start the project by running the spiders from the command line or run the python file RateScraper/RateScraper/spiders/__init__.py . The exchange rates will be saved to the local MySQL database, and by running the WP_api.py file; results will be sent to the configured WordPress site.

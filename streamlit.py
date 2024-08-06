@@ -8,59 +8,53 @@ import mysql.connector
 
 class Banks:
     def __init__(self):
-
-        # For cash rate only
-        self.conn2 = mysql.connector.connect(
-            host = 'localhost',
-            user = 'root',
-            password = 'root',
-            database = 'Rates' 
-        )
-
-        self.cur2 = self.conn2.cursor()  
-
+ 
         # For transactions and cash rate
         self.conn = mysql.connector.connect(
             host = 'localhost',
             user = 'root',
             password = 'root',
-            database = 'FullRates'
+            database = 'Exchange_Rates'
         )
  
         self.cur = self.conn.cursor()
 
+    # The two functions below retrieve the name of the banks
     def banks_name(self):
-        self.cur2.execute('select distinct bank from rates')
-        banks = self.cur2.fetchall()
+        self.cur.execute('select distinct bank from rates')
+        banks = self.cur.fetchall()
         banks = [bank[0] for bank in banks]
 
         return  banks
     
     def banks_name_full(self):
-        self.cur.execute('select distinct bank from rates')
+        self.cur.execute('select distinct bank from full_rates')
         banks = self.cur.fetchall()
         banks = [bank[0] for bank in banks]   
 
         return banks      
 
+    # This function return the date, CurrencyCode, Buying and selling rates from database for respective bank
     def rate(self, bank: str) -> str:
-        
-        self.cur2.execute('SELECT * FROM rates WHERE bank = %s ORDER BY date DESC', (bank,))
-        result = self.cur2.fetchall()
-        most_recent_date = result[0][1]
-        recent_rates = [rate for rate in result if rate[1] == most_recent_date]
-
-        return recent_rates
-    
-    def full_rate(self, bank: str) -> str:
         
         self.cur.execute('SELECT * FROM rates WHERE bank = %s ORDER BY date DESC', (bank,))
         result = self.cur.fetchall()
         most_recent_date = result[0][1]
         recent_rates = [rate for rate in result if rate[1] == most_recent_date]
 
+        return recent_rates
+    
+    # This function return the date, CurrencyCode, Cash Buying and cash selling, Transactional buying, Transactional selling rates from database for respective bank
+    def full_rate(self, bank: str) -> str:
+        
+        self.cur.execute('SELECT * FROM full_rates WHERE bank = %s ORDER BY date DESC', (bank,))
+        result = self.cur.fetchall()
+        most_recent_date = result[0][1]
+        recent_rates = [rate for rate in result if rate[1] == most_recent_date]
+
         return recent_rates 
     
+    # The two functions below return the dataframe and date that is retieved from the database using the functions: full_rate() and rate()
     def bank_rate_table(self, bank: str):
         rates = self.rate(bank)
         data = [[rate[2], rate[3], rate[4]] for rate in rates if rate[3] is not None]
@@ -76,11 +70,11 @@ class Banks:
 
     def best_rates(self):
         # Best USD rates
-        self.cur.execute('select * from rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('USD',))
+        self.cur.execute('select * from full_rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('USD',))
         result_full = self.cur.fetchall()[0]
 
-        self.cur2.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('USD',))
-        result = self.cur2.fetchall()[0]        
+        self.cur.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('USD',))
+        result = self.cur.fetchall()[0]        
 
         best_rate = result[3]
         best_full_rate = result_full[5]
@@ -88,11 +82,11 @@ class Banks:
         best_USD = result if best_rate > best_full_rate else result_full
 
         # Best EUR rates
-        self.cur.execute('select * from rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('EUR',))
+        self.cur.execute('select * from full_rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('EUR',))
         result_full = self.cur.fetchall()[0]
 
-        self.cur2.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('EUR',))
-        result = self.cur2.fetchall()[0]        
+        self.cur.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('EUR',))
+        result = self.cur.fetchall()[0]        
 
         best_rate = result[3]
         best_full_rate = result_full[5]
@@ -100,11 +94,11 @@ class Banks:
         best_EUR = result if best_rate > best_full_rate else result_full        
 
         # Best GBP rates
-        self.cur.execute('select * from rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('GBP',))
+        self.cur.execute('select * from full_rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('GBP',))
         result_full = self.cur.fetchall()[0]
 
-        self.cur2.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('GBP',))
-        result = self.cur2.fetchall()[0]        
+        self.cur.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('GBP',))
+        result = self.cur.fetchall()[0]        
 
         best_rate = result[3]
         best_full_rate = result_full[5]
@@ -128,7 +122,7 @@ class Banks:
         return  pd.DataFrame(data =best_rates, columns = ['Date', 'Bank', 'Currency Code', 'Buying', 'Selling']).set_index('Date')
     
     def visualize_historical_data(self):
-        self.cur.execute('select Date, TransactionalSelling from rates where bank = %s AND CurrencyCode = %s order by date desc limit 30', ('CBE', 'USD'))
+        self.cur.execute('select Date, TransactionalSelling from full_rates where bank = %s AND CurrencyCode = %s order by date desc limit 30', ('CBE', 'USD'))
         data = self.cur.fetchall()
 
         data= [[pd.to_datetime(price[0], format='%d-%m-%Y'), float(price[1])] for price in data]

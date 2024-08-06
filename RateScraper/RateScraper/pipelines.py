@@ -96,13 +96,13 @@ class SaveToMySQLPipeline:
             host = 'localhost',
             user = 'root',
             password = 'root',
-            database = 'FullRates'
+            database = 'Exchange_Rates'
         )
 
         self.cur = self.conn.cursor()
 
         self.cur.execute("""
-        CREATE TABLE IF NOT EXISTS rates(
+        CREATE TABLE IF NOT EXISTS full_rates(
             bank VARCHAR(255),
             Date DATETIME,
             CurrencyCode VARCHAR(255),
@@ -114,17 +114,7 @@ class SaveToMySQLPipeline:
         """)
 
 
-        # For cash rate only
-        self.conn2 = mysql.connector.connect(
-            host = 'localhost',
-            user = 'root',
-            password = 'root',
-            database = 'Rates'
-        )
-
-        self.cur2 = self.conn2.cursor()
-
-        self.cur2.execute("""
+        self.cur.execute("""
         CREATE TABLE IF NOT EXISTS rates(
             bank VARCHAR(255),
             Date DATETIME,
@@ -147,7 +137,7 @@ class SaveToMySQLPipeline:
         count = self.cur.fetchone()[0]
 
         if count == 0:
-            self.cur.execute(""" insert into rates (
+            self.cur.execute(""" insert into full_rates (
                 bank, 
                 Date, 
                 CurrencyCode, 
@@ -184,11 +174,11 @@ class SaveToMySQLPipeline:
 
 
     def process_exchange_item(self, item, spider):
-        self.cur2.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
-        count = self.cur2.fetchone()[0]
+        self.cur.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
+        count = self.cur.fetchone()[0]
 
         if count == 0:
-            self.cur2.execute(""" insert into rates (
+            self.cur.execute(""" insert into rates (
                 bank, 
                 Date, 
                 CurrencyCode, 
@@ -209,7 +199,7 @@ class SaveToMySQLPipeline:
             ))
 
             ## Execute insert of data into database
-            self.conn2.commit()
+            self.conn.commit()
         else:
             logging.debug(">>>>>>>>>>_____________________<<<<<<<<<<<<")
             logging.debug(f"Data for bank '{item['bank']}' and date '{item['Date']}' already exists in the database. Skipping insertion.")            
@@ -223,9 +213,7 @@ class SaveToMySQLPipeline:
         ## Close cursor & connection to database 
         self.cur.close()
         self.conn.close()   
-
-        self.cur2.close()
-        self.conn2.close()   
+ 
 
                
 
