@@ -9,14 +9,19 @@ from streamlit.runtime.scriptrunner import add_script_run_ctx
 
 import threading
 import datetime
-import queue
+import os
+import sys
 
 import pandas as pd
 import json
 
+def reboot_app():
+    """Restarts the current Streamlit app"""
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
 
 st.set_page_config(layout="wide")
-
+st.button("Reboot App", on_click=reboot_app)
 st.title('Exchange Rate')
 
 st.header('List of Currency rates')
