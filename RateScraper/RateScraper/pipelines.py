@@ -8,6 +8,8 @@
 from itemadapter import ItemAdapter
 from RateScraper.items import FullExchangeItems, ExchangeItem
 
+from DB_config import HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, PORT_NUMBER, SCRIPT_LINK
+
 import datetime
 import logging
 from decimal import Decimal
@@ -93,10 +95,11 @@ class SaveToMySQLPipeline:
     def __init__(self):
         # For transactions and cash rate
         self.conn = mysql.connector.connect(
-            host = 'localhost',
-            user = 'root',
-            password = 'root',
-            database = 'Exchange_Rates'
+            host=HOST,
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            database=DATABASE_NAME,
+            port=PORT_NUMBER
         )
 
         self.cur = self.conn.cursor()

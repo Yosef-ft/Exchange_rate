@@ -3,3 +3,5 @@ env_ExRate
 
 # logs
 info.logs
+
+DB_config.py
