@@ -11,10 +11,11 @@ class Banks:
  
         # For transactions and cash rate
         self.conn = mysql.connector.connect(
-            host = 'localhost',
-            user = 'root',
-            password = st.secrets['DB_PASSWORD'],
-            database = 'Exchange_Rates'
+            host = st.secrets['Host'],
+            user=st.secrets['Database_user'],
+            password= st.secrets['Database_password'],
+            database=st.secrets['Database_name'],
+            port=st.secrets['Port_number']
         )
  
         self.cur = self.conn.cursor()
