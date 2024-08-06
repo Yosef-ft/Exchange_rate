@@ -1,5 +1,8 @@
 import scrapy 
 from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerRunner
+from scrapy.utils.log import configure_logging
+from scrapy.utils.project import get_project_settings
 
 import streamlit as st
 from streamlit.runtime.scriptrunner import add_script_run_ctx
@@ -1085,30 +1088,40 @@ class ZemenSpider(scrapy.Spider):
 
 
 
-def run_spider(spider_class):
-    process = CrawlerProcess({
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-    })
-    process.crawl(spider_class)
-    process.start()
-    process.stop()
+def run_spiders():
+    process = CrawlerProcess(get_project_settings())
 
-if __name__ == '__main__':
-    My_spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
-                  BerhanSpider, BoaSpider, BunnaSpider,
-                  CbeSpider, CoopSpider,
-                  DashenSpider, DebubGlobalSpider,
-                  EnatSpider, GadaaSpider, GohBetochSpider,
-                  HibretSpider, HijraSpider, NbeSpider, NibSpider,
-                  OromiaSpider, SiinqeeSpider, TsedeySpider, TsehaySpider, 
-                  WegagenSpider, ZemenSpider]
-    threads = []
+    spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
+              BerhanSpider, BoaSpider, BunnaSpider, CbeSpider, CoopSpider,
+              DashenSpider, DebubGlobalSpider, EnatSpider, GadaaSpider, GohBetochSpider,
+              HibretSpider, HijraSpider, NbeSpider, NibSpider, OromiaSpider, SiinqeeSpider,
+              TsedeySpider, TsehaySpider, WegagenSpider, ZemenSpider]
 
-    for spider in My_spiders:
-        t = threading.Thread(target=run_spider, args=(spider,))
-        add_script_run_ctx(t)
-        t.start()
-        threads.append(t)
+    for spider in spiders:
+        process.crawl(spider)
 
-    for t in threads:
-        t.join()
+    process.start()  # the script will block here until all crawling jobs are finished
+
+st.title("Scrape Data")
+st.button("Run Spiders", on_click=run_spiders)
+
+
+# if __name__ == '__main__':
+#     My_spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
+#                   BerhanSpider, BoaSpider, BunnaSpider,
+#                   CbeSpider, CoopSpider,
+#                   DashenSpider, DebubGlobalSpider,
+#                   EnatSpider, GadaaSpider, GohBetochSpider,
+#                   HibretSpider, HijraSpider, NbeSpider, NibSpider,
+#                   OromiaSpider, SiinqeeSpider, TsedeySpider, TsehaySpider, 
+#                   WegagenSpider, ZemenSpider]
+#     threads = []
+
+#     for spider in My_spiders:
+#         t = threading.Thread(target=run_spider, args=(spider,))
+#         add_script_run_ctx(t)
+#         t.start()
+#         threads.append(t)
+
+#     for t in threads:
+#         t.join()
