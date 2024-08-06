@@ -58,7 +58,7 @@ class AbaySpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data
+        
     
 
 class AddisSpider(scrapy.Spider):
@@ -92,7 +92,7 @@ class AddisSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data
+        
     
 
 class AhaduSpider(scrapy.Spider):
@@ -133,7 +133,7 @@ class AhaduSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
 
 
 class AmharaSpider(scrapy.Spider):
@@ -175,7 +175,7 @@ class AmharaSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
     
 
 class BerhanSpider(scrapy.Spider):
@@ -218,7 +218,7 @@ class BerhanSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
 
 class AwashSpider(scrapy.Spider):
     name = "Awash"
@@ -249,7 +249,7 @@ class AwashSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
 
 
 class BoaSpider(scrapy.Spider):
@@ -306,7 +306,7 @@ class BoaSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
 
 
 class BunnaSpider(scrapy.Spider):
@@ -348,7 +348,7 @@ class BunnaSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
     
 
 class CbeSpider(scrapy.Spider):
@@ -412,7 +412,7 @@ class CbeSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
     
 class CoopSpider(scrapy.Spider):
     name = "Coop"
@@ -449,7 +449,7 @@ class CoopSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data     
+             
     
 
 class DashenSpider(scrapy.Spider):
@@ -528,7 +528,7 @@ class DashenSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data    
+            
 
 
 class DebubGlobalSpider(scrapy.Spider):
@@ -571,7 +571,7 @@ class DebubGlobalSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data    
+            
     
 class EnatSpider(scrapy.Spider):
     name = "Enat"
@@ -623,7 +623,7 @@ class EnatSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data   
+           
     
 
 class GadaaSpider(scrapy.Spider):
@@ -663,7 +663,7 @@ class GadaaSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data   
+           
     
 
 class GohBetochSpider(scrapy.Spider):
@@ -705,7 +705,7 @@ class GohBetochSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data             
+                     
     
 class HibretSpider(scrapy.Spider):
     name = "Hibret"
@@ -739,7 +739,7 @@ class HibretSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data       
+               
 
 class HijraSpider(scrapy.Spider):
     name = "Hijra"
@@ -775,7 +775,7 @@ class HijraSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data           
+                   
 
 class NbeSpider(scrapy.Spider):
     name = "NBE"
@@ -804,7 +804,7 @@ class NbeSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data           
+                   
     
 
 class NibSpider(scrapy.Spider):
@@ -841,7 +841,7 @@ class NibSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data    
+            
 
 
 class OromiaSpider(scrapy.Spider):
@@ -885,7 +885,7 @@ class OromiaSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data    
+            
 
            
 class SiinqeeSpider(scrapy.Spider):
@@ -923,7 +923,7 @@ class SiinqeeSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data    
+            
 
 
 class TsedeySpider(scrapy.Spider):
@@ -966,7 +966,7 @@ class TsedeySpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data   
+           
 
 
 class TsehaySpider(scrapy.Spider):
@@ -1007,7 +1007,7 @@ class TsehaySpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data    
+            
 
 
 class WegagenSpider(scrapy.Spider):
@@ -1045,7 +1045,7 @@ class WegagenSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data   
+           
     
 
 class ZemenSpider(scrapy.Spider):
@@ -1083,45 +1083,50 @@ class ZemenSpider(scrapy.Spider):
 
         display_data(self.data)
 
-        return self.data  
-                
+          
+
+# def run_spiders():
+#     process = CrawlerProcess(get_project_settings())
+
+#     spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
+#               BerhanSpider, BoaSpider, BunnaSpider, CbeSpider, CoopSpider,
+#               DashenSpider, DebubGlobalSpider, EnatSpider, GadaaSpider, GohBetochSpider,
+#               HibretSpider, HijraSpider, NbeSpider, NibSpider, OromiaSpider, SiinqeeSpider,
+#               TsedeySpider, TsehaySpider, WegagenSpider, ZemenSpider]
+
+#     for spider in spiders:
+#         process.crawl(spider)
+
+#     process.start()  # the script will block here until all crawling jobs are finished
+
+# st.title("Scrape Data")
+# st.button("Run Spiders", on_click=run_spiders)
+
+def run_spider(spider_class):
+    process = CrawlerProcess({
+        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    })
+    process.crawl(spider_class)
+    process.start()
+    process.stop()
 
 
+if __name__ == '__main__':
+    My_spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
+                  BerhanSpider, BoaSpider, BunnaSpider,
+                  CbeSpider, CoopSpider,
+                  DashenSpider, DebubGlobalSpider,
+                  EnatSpider, GadaaSpider, GohBetochSpider,
+                  HibretSpider, HijraSpider, NbeSpider, NibSpider,
+                  OromiaSpider, SiinqeeSpider, TsedeySpider, TsehaySpider, 
+                  WegagenSpider, ZemenSpider]
+    threads = []
 
-def run_spiders():
-    process = CrawlerProcess(get_project_settings())
+    for spider in My_spiders:
+        t = threading.Thread(target=run_spider, args=(spider,))
+        add_script_run_ctx(t)
+        t.start()
+        threads.append(t)
 
-    spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
-              BerhanSpider, BoaSpider, BunnaSpider, CbeSpider, CoopSpider,
-              DashenSpider, DebubGlobalSpider, EnatSpider, GadaaSpider, GohBetochSpider,
-              HibretSpider, HijraSpider, NbeSpider, NibSpider, OromiaSpider, SiinqeeSpider,
-              TsedeySpider, TsehaySpider, WegagenSpider, ZemenSpider]
-
-    for spider in spiders:
-        process.crawl(spider)
-
-    process.start()  # the script will block here until all crawling jobs are finished
-
-st.title("Scrape Data")
-st.button("Run Spiders", on_click=run_spiders)
-
-
-# if __name__ == '__main__':
-#     My_spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
-#                   BerhanSpider, BoaSpider, BunnaSpider,
-#                   CbeSpider, CoopSpider,
-#                   DashenSpider, DebubGlobalSpider,
-#                   EnatSpider, GadaaSpider, GohBetochSpider,
-#                   HibretSpider, HijraSpider, NbeSpider, NibSpider,
-#                   OromiaSpider, SiinqeeSpider, TsedeySpider, TsehaySpider, 
-#                   WegagenSpider, ZemenSpider]
-#     threads = []
-
-#     for spider in My_spiders:
-#         t = threading.Thread(target=run_spider, args=(spider,))
-#         add_script_run_ctx(t)
-#         t.start()
-#         threads.append(t)
-
-#     for t in threads:
-#         t.join()
+    for t in threads:
+        t.join()
