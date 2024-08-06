@@ -168,6 +168,10 @@ class Ui:
                 st.write('Last updated', date)
                 st.dataframe(rates, width = 1000)
 
+        # Footer
+        st.markdown("---")
+        st.markdown("Developed by Yosef. 2024 V1.0")
+
 
 
  
