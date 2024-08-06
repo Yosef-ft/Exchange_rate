@@ -9,6 +9,7 @@ from streamlit.runtime.scriptrunner import add_script_run_ctx
 
 import threading
 import datetime
+import queue
 
 import pandas as pd
 import json
@@ -1085,23 +1086,6 @@ class ZemenSpider(scrapy.Spider):
 
           
 
-# def run_spiders():
-#     process = CrawlerProcess(get_project_settings())
-
-#     spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
-#               BerhanSpider, BoaSpider, BunnaSpider, CbeSpider, CoopSpider,
-#               DashenSpider, DebubGlobalSpider, EnatSpider, GadaaSpider, GohBetochSpider,
-#               HibretSpider, HijraSpider, NbeSpider, NibSpider, OromiaSpider, SiinqeeSpider,
-#               TsedeySpider, TsehaySpider, WegagenSpider, ZemenSpider]
-
-#     for spider in spiders:
-#         process.crawl(spider)
-
-#     process.start()  # the script will block here until all crawling jobs are finished
-
-# st.title("Scrape Data")
-# st.button("Run Spiders", on_click=run_spiders)
-
 def run_spider(spider_class):
     process = CrawlerProcess({
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
@@ -1109,7 +1093,6 @@ def run_spider(spider_class):
     process.crawl(spider_class)
     process.start()
     process.stop()
-
 
 if __name__ == '__main__':
     My_spiders = [AhaduSpider, AbaySpider, AmharaSpider, AwashSpider, AddisSpider,
