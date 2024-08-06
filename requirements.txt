@@ -79,6 +79,7 @@ tornado
 traitlets
 Twisted
 # twisted-iocpsupport
+mysql-connector-python
 typing_extensions
 tzdata
 urllib3
