@@ -13,7 +13,7 @@ class Banks:
         self.conn = mysql.connector.connect(
             host = 'localhost',
             user = 'root',
-            password = 'root',
+            password = st.secrets['DB_PASSWORD'],
             database = 'Exchange_Rates'
         )
  
