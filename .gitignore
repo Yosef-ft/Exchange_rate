@@ -9,3 +9,6 @@ config.py
 
 # Python bytecode
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
