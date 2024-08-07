@@ -15,7 +15,7 @@ def run_all_spiders():
     configure_logging(install_root_handler=False)
     logging.basicConfig(
         filename='info.logs',
-        format='%(levelname)s: %(message)s',
+        format='%(asctime)s - %(levelname)s :: %(message)s',
         level=logging.DEBUG
     )
 

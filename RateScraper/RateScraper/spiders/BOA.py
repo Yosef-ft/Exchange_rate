@@ -40,7 +40,7 @@ class BoaSpider(scrapy.Spider):
 
         for i in range(len(cash_common)):
             exchange_rate = FullExchangeItems()
-            exchange_rate['bank'] = "BOA"
+            exchange_rate['bank'] = "Abyssinia"
             exchange_rate['Date'] = response.css('table tr th.column-1::text').get()
             exchange_rate['CurrencyCode'] = cash_common[i][0]
             exchange_rate['CashBuying'] = cash_common[i][1]

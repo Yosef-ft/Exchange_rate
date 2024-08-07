@@ -34,7 +34,7 @@ class BunnaSpider(scrapy.Spider):
         for rate in Rates:
             exchange_rate = FullExchangeItems()            
             exchange_rate['bank'] = self.name
-            exchange_rate['Date'] = response.css('div.elementor-element div.elementor-widget-container h4::text').get()
+            exchange_rate['Date'] = response.css('div.wpr-grid-item-date div.inner-block span::text').get()
             exchange_rate['CurrencyCode'] = rate[0]
             exchange_rate['CashBuying']= rate[1]
             exchange_rate['CashSelling'] = rate[2]
