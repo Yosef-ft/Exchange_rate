@@ -4,4 +4,8 @@ env_ExRate
 # logs
 info.logs
 
-DB_config.py
+# Database files
+config.py
+
+# Python bytecode
+__pycache__/
