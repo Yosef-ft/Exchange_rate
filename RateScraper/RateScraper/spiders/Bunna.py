@@ -10,17 +10,24 @@ class BunnaSpider(scrapy.Spider):
   
     def parse(self, response):
         
-        data = response.css('table tbody tr td div span::text').getall()
-        data = [rate.replace('\t', '').replace('\n','') for rate in data]
-        data = [rate for rate in data if rate != ' ' and rate != '' ]
+        data =response.css('table tbody tr td::text').getall()
+        data = [rate.replace('\t', '').replace('\n','').strip() for rate in data]
+        data = [rate.strip() for rate in data if rate != ' ' and rate != '' ]
+
+        cash_rate = data[:len(data) //2]
+        trans_rate = data[len(data) //2 :]
 
         Rates = []
         temp = []
-        for rate in data:
-            temp.append(rate)
-            if len(temp) == 5:
-                Rates.append(temp)
-                temp = []             
+        for i in range(0,len(cash_rate), 4):
+            temp = [cash_rate[0+i]]
+            temp.append(cash_rate[2+i])
+            temp.append(cash_rate[3+i])
+            temp.append(trans_rate[2+i])
+            temp.append(trans_rate[3+i])
+            Rates.append(temp)
+            temp = []
+              
                     
 
         ## Constantly changing their website this is just half the data

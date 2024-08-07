@@ -8,7 +8,7 @@
 from itemadapter import ItemAdapter
 from RateScraper.items import FullExchangeItems, ExchangeItem
 
-from DB_config import HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, PORT_NUMBER, SCRIPT_LINK
+from RateScraper.config import HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, PORT_NUMBER, SCRIPT_LINK
 
 import datetime
 import logging
@@ -136,7 +136,7 @@ class SaveToMySQLPipeline:
 
 
     def process_full_exchange_item(self, item, spider):
-        self.cur.execute("SELECT COUNT(*) FROM rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
+        self.cur.execute("SELECT COUNT(*) FROM full_rates WHERE Date = %s AND bank = %s AND CurrencyCode = %s", (item["Date"], item["bank"], item['CurrencyCode']))
         count = self.cur.fetchone()[0]
 
         if count == 0:

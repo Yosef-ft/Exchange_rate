@@ -21,24 +21,33 @@ class CbeSpider(scrapy.Spider):
     }
 
     def parse(self, response):
-        # url = 'https://combanketh.et/cbeapi/daily-exchange-rates?_limit=1&_sort=Date%3ADESC'
+        url_daily = 'https://combanketh.et/cbeapi/daily-exchange-rates?_limit=1&_sort=Date%3ADESC'
 
         url = 'https://combanketh.et/cbeapi/daily-exchange-rates/?_limit=1&Date='
 
         date = datetime.datetime.now()
 
-        for day in range(0, 31):
-            hist_date = (date - datetime.timedelta(days=day))
-            if hist_date.weekday() == 5 or hist_date.weekday() == 6:
-                continue
-            else:
-                hist_date = (date - datetime.timedelta(days=day)).strftime('%Y-%m-%d')
+        # Already scraped 30 days worth of data   <------------------- Uncomment if you don't have 30 days of data -- for visualization
+        # for day in range(0, 31):
+        #     hist_date = (date - datetime.timedelta(days=day))
+        #     if hist_date.weekday() == 5 or hist_date.weekday() == 6:
+        #         continue
+        #     else:
+        #         hist_date = (date - datetime.timedelta(days=day)).strftime('%Y-%m-%d')
 
-            request = scrapy.Request(url = url + hist_date,
-                                    callback= self.parse_api,
-                                    headers = self.headers)
+        #     request = scrapy.Request(url = url + hist_date,
+        #                             callback= self.parse_api,
+        #                             headers = self.headers)
             
-            yield request
+        #     yield request
+
+        # To scrape only the daily content
+        request = scrapy.Request(url = url_daily ,
+                                callback= self.parse_api,
+                                headers = self.headers)       
+
+        yield request 
+
 
 
     
