@@ -70,11 +70,17 @@ class Banks:
     
 
     def best_rates(self):
+        # Only shows the recent date
+        self.cur.execute('select Date from full_rates order by Date Desc limit 1;')
+        date = self.cur.fetchone()[0]
+        self.cur.execute('select * from rates where CurrencyCode = %s and Date = %s order by Buying DESC limit 1;', ('USD', date))
+        result = self.cur.fetchall()[0] 
+
         # Best USD rates
-        self.cur.execute('select * from full_rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('USD',))
+        self.cur.execute('select * from full_rates where CurrencyCode = %s and Date = %s order by TransactionalBuying DESC limit 1;', ('USD',date))
         result_full = self.cur.fetchall()[0]
 
-        self.cur.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('USD',))
+        self.cur.execute('select * from rates where CurrencyCode = %s and Date = %s order by Buying DESC limit 1;', ('USD', date))
         result = self.cur.fetchall()[0]        
 
         best_rate = result[3]
@@ -83,10 +89,10 @@ class Banks:
         best_USD = result if best_rate > best_full_rate else result_full
 
         # Best EUR rates
-        self.cur.execute('select * from full_rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('EUR',))
+        self.cur.execute('select * from full_rates where CurrencyCode = %s and Date = %s order by TransactionalBuying DESC limit 1;', ('EUR',date))
         result_full = self.cur.fetchall()[0]
 
-        self.cur.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('EUR',))
+        self.cur.execute('select * from rates where CurrencyCode = %s and Date = %s order by Buying DESC limit 1;', ('EUR', date))
         result = self.cur.fetchall()[0]        
 
         best_rate = result[3]
@@ -95,10 +101,10 @@ class Banks:
         best_EUR = result if best_rate > best_full_rate else result_full        
 
         # Best GBP rates
-        self.cur.execute('select * from full_rates where CurrencyCode = %s order by TransactionalBuying DESC limit 1;', ('GBP',))
+        self.cur.execute('select * from full_rates where CurrencyCode = %s and Date = %s order by TransactionalBuying DESC limit 1;', ('GBP',date))
         result_full = self.cur.fetchall()[0]
 
-        self.cur.execute('select * from rates where CurrencyCode = %s order by Buying DESC limit 1;', ('GBP',))
+        self.cur.execute('select * from rates where CurrencyCode = %s and Date = %s order by Buying DESC limit 1;', ('GBP',date))
         result = self.cur.fetchall()[0]        
 
         best_rate = result[3]
