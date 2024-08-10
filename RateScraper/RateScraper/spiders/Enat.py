@@ -38,7 +38,7 @@ class EnatSpider(scrapy.Spider):
         for rate in Rates:
             exchange_rate = ExchangeItem()
             exchange_rate['bank'] = self.name
-            exchange_rate['Date'] = response.css('div.et_pb_text_inner h1.p1 strong::text').get().split()[-1]
+            exchange_rate['Date'] = response.css('div.et_pb_text_inner h2 strong::text').get().split()[-1]
             exchange_rate["CurrencyCode"] = rate[0]
             exchange_rate["Buying"] = rate[1]
             exchange_rate["Selling"] = rate[2]        
